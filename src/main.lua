@@ -1,0 +1,6 @@
+print(1)
+Parser = require('src/parser/parser')
+print(1)
+local parser = Parser:new()
+print(1)
+parser:parseAutomata('src/tests/test1/test1.txt')
