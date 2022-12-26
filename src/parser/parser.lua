@@ -1,7 +1,6 @@
 local class = require('src.utils.middleclass')
-
+require('src.utils.functions')
 Parser = class('Parser')
-
 -- Определение токенов по умолчанию
 function Parser:initialize()
     self.al_sym = "[a-z]"
@@ -16,10 +15,13 @@ end
 
 
 function Parser:parseAutomata(filename)
-    print(self.sep)
     local automata_string = ""
     for line in io.lines(filename) do
         automata_string = automata_string..line
     end
-    print(automata_string)
+    -- Удаление пробельных символов
+    automata_string = delete_spaces(automata_string)
+    
 end
+
+return Parser

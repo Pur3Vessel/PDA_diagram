@@ -1,6 +1,3 @@
-print(1)
-Parser = require('src/parser/parser')
-print(1)
+local Parser = require('src/parser/parser')
 local parser = Parser:new()
-print(1)
-parser:parseAutomata('src/tests/test1/test1.txt')
+parser:parseAutomata('tests/test1/test1.txt')
