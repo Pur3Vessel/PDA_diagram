@@ -7,7 +7,7 @@
 
 Стартовый нетерминал: [automata]
 - [automata] -> [initial-state][states][sep][transitions] | [initial-state][sep][transitions]
-- [initial-state] -> [state-name]
+- [initial-state] -> [state-name] | [state-name]-[flag]
 - [states] -> [state],[states] | [state] 
 - [state] -> [state-name] | [state-name]-[flag]
 - [state-name] -> [symbol] | [symbol][state-name]
@@ -38,4 +38,5 @@
 - Нельзя параметризировать токены пробельными символами
 
 (Метки ловушек, недетерминированных переходов и stack-independent переходов будут расставляться при визуализации)
+# Как заполнять config
 # Запуск программы
