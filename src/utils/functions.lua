@@ -25,3 +25,11 @@ function delete_spaces(string)
     return filter_string(string, predicate)
 end
 
+function has_value(tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
