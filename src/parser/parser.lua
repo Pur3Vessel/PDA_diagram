@@ -35,6 +35,7 @@ function Parser:initialize(config)
         local sep = string.find(line, ']')
         local token = string.sub(line, 1, sep)
         local value = string.sub(line, sep + 1, #line + 1)
+        print(token, value)
         if token == '[al-sym]' then
             self.al_sym = value
             for _,  elem in ipairs(self.prohibited) do
@@ -51,40 +52,46 @@ function Parser:initialize(config)
             end
         elseif token == '[flag]' then
             self.flag = value
-            table.remove(self.prohibited, 'flag')
+            self.prohibited['flag'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникальным значением')
             end 
+            self.prohibited['flag'] = value
         elseif token == '[sep]' then
             self.sep = value
-            table.remove(self.prohibited, 'sep')
+            self.prohibited['sep'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникальным значением')
             end 
+            self.prohibited['sep'] = value
         elseif token == '[trans-sep]' then
             self.trans_sep = value
-            table.remove(self.prohibited, 'trans_sep')
+            self.prohibited['trans-sep'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникальным значением')
             end 
+            self.prohibited['trans-sep'] = value
         elseif token == '[empty]' then
             self.empty = value
-            table.remove(self.prohibited, 'empty')
+            self.prohibited['empty'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникthальным значением')
             end 
+            self.prohibited['empty'] = value
         elseif token == '[stack-any]' then
             self.any = value
-            table.remove(self.prohibited, 'any')
+            self.prohibited['any'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникальным значением')
             end 
+            self.prohibited['stack-any'] = value
         elseif token == '[stack-bottom]' then
             self.bottom = value
-            table.remove(self.prohibited, 'bottom')
+            self.prohibited['bottom'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
                 error('Токен параметризирован не уникальным значением')
             end 
+            self.prohibited['bottom'] = value
         else
             print('Эта строка написана неверно:', line)
             goto continue
