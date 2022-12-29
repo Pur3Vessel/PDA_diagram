@@ -1,0 +1,2 @@
+[al-sym] [0-1],
+[stack-symbol] [0]

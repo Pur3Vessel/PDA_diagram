@@ -2,17 +2,95 @@ local class = require('src.utils.middleclass')
 require('src.utils.functions')
 Parser = class('Parser')
 -- Определение токенов по умолчанию
-function Parser:initialize()
-    self.al_sym = "[0-1]"
-    self.stack_symbol = "0"
+function Parser:initialize(config)
+    self.al_sym = "[a-z]"
+    self.stack_symbol = "[A-Y]"
     self.flag = "final"
     self.sep = ";"
     self.trans_sep = "->"
     self.empty = "ɛ"
     self.any = "*"
     self.bottom = "Z"
-    self.prohibited = {"-", ",", self.trans_sep, self.any, self.bottom, self.empty, self.flag}
+    self.prohibited = {"-", ","}
+    self.prohibited['sep'] = self.sep
+    self.prohibited['trans_sep'] = self.trans_sep
+    self.prohibited['any'] = self.any
+    self.prohibited['bottom'] = self.bottom
+    self.prohibited['empty'] = self.empty
+    self.prohibited['flag'] = self.flag
     self.states = {}
+
+    local config_string = ""
+    for line in io.lines(config) do
+        config_string = config_string..line
+    end
+    config_string = delete_spaces(config_string)
+    local lines = split(config_string, ',')
+    for i = 1, #lines do
+        local line = lines[i]
+        if string.match(line, ']') == nil then
+            print('Эта строка написана неверно:', line)
+            goto continue
+        end
+        local sep = string.find(line, ']')
+        local token = string.sub(line, 1, sep)
+        local value = string.sub(line, sep + 1, #line + 1)
+        if token == '[al-sym]' then
+            self.al_sym = value
+            for _,  elem in ipairs(self.prohibited) do
+                if string.match(elem, value) then
+                    error('Токен параметризирован не уникальным значением')
+                end
+            end
+        elseif token == '[stack-symbol]' then
+            self.stack_symbol = value
+            for _,  elem in ipairs(self.prohibited) do
+                if string.match(elem, value) then
+                    error('Токен параметризирован не уникальным значением')
+                end
+            end
+        elseif token == '[flag]' then
+            self.flag = value
+            table.remove(self.prohibited, 'flag')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникальным значением')
+            end 
+        elseif token == '[sep]' then
+            self.sep = value
+            table.remove(self.prohibited, 'sep')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникальным значением')
+            end 
+        elseif token == '[trans-sep]' then
+            self.trans_sep = value
+            table.remove(self.prohibited, 'trans_sep')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникальным значением')
+            end 
+        elseif token == '[empty]' then
+            self.empty = value
+            table.remove(self.prohibited, 'empty')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникthальным значением')
+            end 
+        elseif token == '[stack-any]' then
+            self.any = value
+            table.remove(self.prohibited, 'any')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникальным значением')
+            end 
+        elseif token == '[stack-bottom]' then
+            self.bottom = value
+            table.remove(self.prohibited, 'bottom')
+            if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
+                error('Токен параметризирован не уникальным значением')
+            end 
+        else
+            print('Эта строка написана неверно:', line)
+            goto continue
+        end
+        ::continue::
+    end
 end
 
 
@@ -72,11 +150,9 @@ function Parser:parseAutomata(filename)
             error('В переходе появилось необъявленное состояние')
         end
         if string.match(before_separated[2],self.al_sym) == nil and before_separated[2] ~= self.empty then
-            print(before_separated[2])
             error('В переходе появился символ, не принадлежащий входному алфавиту')
         end
         if string.match(before_separated[3], self.stack_symbol) == nil and before_separated[3] ~= self.bottom and before_separated[3] ~= self.any then
-            print(before_separated[3])
             error('В переходе появился символ, не принадлежащий стэковому алфавиту')
         end
         if #after_separated[2] == 1 then
@@ -90,7 +166,6 @@ function Parser:parseAutomata(filename)
                 error('Дно стэка не было считано, но оно было снова записано')
             end
             if string.match(after_separated[2], self.stack_symbol) == nil and after_separated[2] ~= self.empty and after_separated[2] ~= self.bottom then
-                print(after_separated[2])
                 error('В переходе появился символ, не принадлежащий стэковому алфавиту')
             end
         else
