@@ -21,8 +21,11 @@ function Parser:initialize(config)
     self.states = {}
 
     local config_string = ""
-    for line in io.lines(config) do
-        config_string = config_string..line
+    local f, error = io.open(config)
+    if f then
+        for line in io.lines(config) do
+            config_string = config_string..line
+        end 
     end
     config_string = delete_spaces(config_string)
     local lines = split(config_string, ',')
@@ -39,14 +42,14 @@ function Parser:initialize(config)
         if token == '[al-sym]' then
             self.al_sym = value
             for _,  elem in ipairs(self.prohibited) do
-                if string.match(elem, value) then
+                if string.match(elem, value) ~= nil then
                     error('Токен параметризирован не уникальным значением')
                 end
             end
         elseif token == '[stack-symbol]' then
             self.stack_symbol = value
             for _,  elem in ipairs(self.prohibited) do
-                if string.match(elem, value) then
+                if string.match(elem, value) ~= nil then
                     error('Токен параметризирован не уникальным значением')
                 end
             end

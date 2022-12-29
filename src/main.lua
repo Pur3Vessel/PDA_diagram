@@ -1,3 +1,12 @@
-local Parser = require('src/parser/parser')
-local parser = Parser:new('tests/test1/config.txt')
-parser:parseAutomata('tests/test1/test1.txt')
+if #arg ~= 1 and #arg ~= 2 then
+    error('Некорректный вызов программы')
+end
+local parser = nil
+if #arg == 1 then
+    local Parser = require('src/parser/parser')
+    parser = Parser:new('')
+else
+    local Parser = require('src/parser/parser')
+    parser = Parser:new(arg[2])
+end
+parser:parseAutomata(arg[1])
