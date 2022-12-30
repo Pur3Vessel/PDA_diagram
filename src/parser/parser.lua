@@ -24,8 +24,8 @@ function Parser:initialize(config)
     local f, error = io.open(config)
     if f then
         for line in io.lines(config) do
-            config_string = config_string..line
-        end 
+        config_string = config_string..line
+    end 
     end
     config_string = delete_spaces(config_string)
     local lines = split(config_string, ',')
@@ -57,7 +57,7 @@ function Parser:initialize(config)
             self.flag = value
             self.prohibited['flag'] = nil
             if has_value(self.prohibited, value) or string.match(value, self.al_sym) ~= nil or string.match(value, self.stack_symbol) ~= nil then
-                error('Токен параметризирован не уникальным значением')
+                error("Токен параметризирован не уникальным значением")
             end 
             self.prohibited['flag'] = value
         elseif token == '[sep]' then
