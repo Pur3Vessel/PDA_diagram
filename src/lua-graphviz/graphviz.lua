@@ -29,7 +29,7 @@ local __Graph = {
 	edge = function(self, ...)
 		local args = {...}
 
-		table.insert(self.edges.edge, {prev = args[1], succ = args[2], label  = args[3]})
+		table.insert(self.edges.edge, {prev = args[1], succ = args[2], labels  = args[3]})
 
 		return self
 	end,
@@ -55,7 +55,7 @@ local __Graph = {
 
 		local edge = self.edges.edge
 		for i = 1, #edge do
-			src = src .. ("\t\t\t%s -> %s [label = %s]\n"):format(edge[i].prev, edge[i].succ, edge[i].label)
+			src = src .. ("\t\t\t%s -> %s [%s]\n"):format(edge[i].prev, edge[i].succ, edge[i].labels)
 		end
 
 		src = src .. "}"
