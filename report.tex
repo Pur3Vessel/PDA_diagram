@@ -1,0 +1,129 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english, russian]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{float}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Отчет по лабораторной работе №5 \\Диаграмма PDA (Вариант 3)}
+\author{Баев Д.А. Федоров А.Н.}
+
+\begin{document}
+\maketitle
+
+%\begin{abstract}
+%Your abstract.
+%\end{abstract}
+
+\section{Задание}
+\begin{itemize}
+  \item Предложить грамматику PDA.
+  \item Прочить описание PDA в заданном синтаксисе
+  \item Построить диаграмму PDA, где будут выделены состояния-ловушки, недетерминированные переходы и переходы, не влияющие на стек
+\end{itemize}
+
+
+\section{Установка и запуск}
+
+\begin{enumerate}
+    \item Установка осуществяется путем клонируем репозиторий проекта
+    \begin{lstlisting}
+    git clone https://github.com/Pur3Vessel/PDA_diagram
+    \end{lstlisting}
+    \item Переходим в папку проекта
+    \begin{lstlisting}
+    cd PDA-diagram
+    \end{lstlisting}
+    \item Запускаем программу из корневой(!важно!) папки проекта, с указанием пути до файла с тестом и конфигом (опционально)
+    \begin{lstlisting}
+    lua src/main.lua path/to/test.txt path/to/config.txt
+    \end{lstlisting}
+    \item Построенная диаграмма автоматически выведется на экран и сохранится в файле test.pdf в корне проекта
+    \begin{lstlisting}
+    test.pdf
+    \end{lstlisting}
+\end{enumerate}
+
+\section{Грамматика}
+
+\begin{figure}[H]
+Стартовый нетерминал: [automata]
+\centering
+        $$\begin{array}{l}
+        [automata] \to [initail-state][states][sep][transitions] \;|\; [initial-state][sep][transitions]\\  
+        
+        [initail-state] \to [state-name] \;|\; [state-name]-[flag] \\
+
+        [states] \to [state],[states] \;|\; [state]  \\
+
+        [state] \to [state-name]\;|\;[state-name]-[flag] \\
+
+        [state-name] \to [symbol] \;|\; [symbol][state-name] \\
+
+        [transitions] \to [transiton] \;|\; [transiton][sep][transitions] \\
+        
+        [transition] \to [before][trans-sep][after] \;|\; [state-name],[alphabet-symbol],[stack-any][trans-sep][state-name],[stack-any] \\
+        
+        [transition] \to [state-name],[alphabet-symbol],[stack-bottom][trans-sep][state-name],[stack-symbols][stack-bottom] \\
+        
+        [before] \to [state-name], [alphabet-symbol], [stack-symbol] \\
+        
+        [after] \to [state-name], [stack-symbols] \;|\; [state-name], [empty] \\
+        
+        [alphabet-symbol] \to [al-sym] \;|\; [empty] \\
+        
+        [stack-symbols] \to [stack-symbol][stack-symbols] \;|\; [stack-symbol] \\
+        \end{array}$$
+[symbol] - символ в имени состояния. Может быть любым разрешенным символом.
+
+\end{figure}
+
+\begin{itemize}
+\item [al-sym] - символ входного алфавита. Задается в config некоторой регуляркой (по умолчанию: [a-z])
+\item [stack-symbol] - символ стэкового алфавита. Задается в config некоторой регуляркой (по умолчанию: [A-Y])
+\item [flag] - строка, которая задает метку завершающего состояния. По умолчанию: final.
+\item [sep] - символ, который задает разделитель между "строками". По умолчанию: ;
+\item [trans-sep] - строка, которая задает разделитель между двумя частями правила. По умолчанию: ->
+\item [empty] - символ, который задает пустую строку. По умолчанию: ɛ
+\item [stack-any] - символ, который задает любой стэковый символ. По умолчанию: *
+\item [stack-bottom] - символ, который задает дно стэка. Не должен распознаваться регуляркой, задающей стэковый алфафит. По умолчанию: Z
+
+\end{itemize}
+
+\newline
+\textbf{Ограничения:}
+
+\begin{itemize}
+\item Имена состояний, которые записываются в описании переходов, должны быть объявлены в [states]
+\item В [symbol] запрещено использовать символы токенов, а также символы , и - и пробельные символы
+\end{itemize}
+
+\section{Заполнение config}
+Параметры указываются через запятую в формате: [имя параметра] значение \\
+
+Пример: [trans-sep] ::=, [empty] ! \\
+
+В случае, если имя параметра указано неверно, этот параметр не будет изменен. \\
+
+\textbf{Ограничения:}
+
+\begin{itemize}
+
+\item Нельзя параметризовать токены запятой и тире
+\item Для избежания неоднозначности все токены должны быть уникальными значениями
+\item Нельзя параметризировать токены пробельными символами
+\item Стэковый алфафит, входящий алфавит и дно стэка должны параметризоваться символами ASCII
+\end{itemize}
+
+\end{document}
