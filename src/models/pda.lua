@@ -100,8 +100,10 @@ function PDA:to_graph()
     local graph = Graphviz()
 
     graph.nodes.style:update{
-        fontname = "Inconsolata Regular",
-        penwidth = 1
+        fontname = "Inconsolata Regular"
+    }
+    graph.edges.style:update{
+        penwidth = 3
     }
     local subgraphs_states = {}
     for k, v in pairs(self.states) do
