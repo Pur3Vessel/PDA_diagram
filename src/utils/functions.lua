@@ -33,3 +33,25 @@ function has_value(tab, val)
     end
     return false
 end
+
+function table.length(arr)
+    local size = 0
+    for _ in pairs(arr) do
+        size = size + 1
+    end
+    return size
+end
+
+function dump(o)
+    if type(o) == 'table' then
+        local s = '{ '
+        for k,v in pairs(o) do
+            if type(k) ~= 'number' then k = '"'..k..'"' end
+            s = s .. '['..k..'] = ' .. dump(v) .. ','
+        end
+        return s .. '} '
+    else
+        return tostring(o)
+    end
+ end
+ 
