@@ -38,11 +38,11 @@ function PDA:find_traps()
         local st_num = not_traps.size
         for _, tr in pairs(self.transitions) do
             if not_traps:has(tr.state_to) then
-                not_in_traps:add(tr.state_from)
+                not_traps:add(tr.state_from)
             end
         end
-        if not_in_traps.size - st_num > 0 then
-            not_traps:union(not_in_traps)
+        local st_num_new = not_traps.size
+        if st_num_new - st_num ~= 0 then
         else
             break
         end
@@ -70,7 +70,7 @@ function PDA:find_deterministic_transitions()
             local non_det = {}
             for _, v in pairs(st_transits) do
                 -- print(tr.state_from, tr.state_to, v.state_from, v.state_to)
-                if equal_tr(v, tr) then
+                if equal_tr(v, tr, self.empty_symbol) then
                     table.insert(non_det, v)
                 end
             end
@@ -90,7 +90,7 @@ end
 
 function PDA:find_stack_independent_transitions()
     for ind, tr in pairs(self.transitions) do
-        if(tr.stack_pop_symbol == any and tr.stack_push_symbol == any) then
+        if(tr.stack_pop_symbol == self.any_symbol and tr.stack_push_symbol == self.any_symbol) then
             table.insert(self.stack_independent_transitions, tr)
             tr.is_stack_ind = true
         end
@@ -144,12 +144,12 @@ function PDA:to_graph()
         graph:edge(v.state_from, v.state_to, label)
     end
 
-    print(graph:source())
+    -- print(graph:source())
 
     graph:render("test")
 end
 
-function equal_tr(tr1, tr2)
+function equal_tr(tr1, tr2, empty)
     if (tr1.symbol == empty) or (tr2.symbol == empty) then
         return tr1.stack_pop_symbol ~= tr2.stack_pop_symbol
     else
