@@ -153,6 +153,9 @@ end
 
 function equal_tr(tr1, tr2, empty, any)
     if (tr1.symbol == empty) or (tr2.symbol == empty) then
+        if tr1.stack_pop_symbol == any or tr2.stack_pop_symbol == any then
+            return true
+        end
         return tr1.stack_pop_symbol == tr2.stack_pop_symbol
     else
         return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol
