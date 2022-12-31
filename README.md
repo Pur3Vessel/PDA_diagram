@@ -3,10 +3,8 @@
 
 Федоров Александр ([JazZzik](https://github.com/JazZzik)) - структура автомата, визуализация.
 # Грамматика
-(Это потом должно пойти в отчет)
-
 Стартовый нетерминал: [automata]
-- [automata] -> [initial-state][states][sep][transitions] | [initial-state][sep][transitions]
+- [automata] -> [initial-state],[states][sep][transitions] | [initial-state][sep][transitions]
 - [initial-state] -> [state-name] | [state-name]-[flag]
 - [states] -> [state],[states] | [state] 
 - [state] -> [state-name] | [state-name]-[flag]
@@ -14,7 +12,7 @@
 - [transitions] -> [transiton] | [transiton][sep][transitions]
 - [transition] -> [before][trans-sep][after] | [state-name],[alphabet-symbol],[stack-any][trans-sep][state-name],[stack-any]
 - [transition] -> [state-name],[alphabet-symbol],[stack-bottom][trans-sep][state-name],[stack-symbols][stack-bottom]
-- [before] -> [state-name], [alphabet-symbol], [stack-symbol] | [state-name], [alphabet-symbol], [stack-any] 
+- [before] -> [state-name], [alphabet-symbol], [stack-symbol]
 - [after] -> [state-name], [stack-symbols] | [state-name], [empty] 
 - [alphabet-symbol] -> [al-sym] | [empty]
 - [stack-symbols] -> [stack-symbol][stack-symbols] | [stack-symbol]
@@ -35,16 +33,15 @@
 - Имена состояний, которые записываются в описании переходов, должны быть объявлены в [states] 
 - В [symbol] запрещено использовать символы токенов, а также символы , и - и пробельные символы
 
-(Метки ловушек, недетерминированных переходов и stack-independent переходов будут расставляться при визуализации)
 # Как заполнять config
-Параметры указываются через запятую в формате [имя параметра] значение
+Параметры указываются через запятую в формате: [имя параметра] значение
 
 Пример: [trans-sep] ::=, [empty] !
 
-В случае, если имя параметра указано неверно, этот параметр не будет изменен. Если параметр будет параметризирован более одного раза, то считаться будет только последнее упоминание.
+В случае, если имя параметра указано неверно, этот параметр не будет изменен.
 
 Ограничения:
-- Нельзя в качестве параметров использовать запятую и тире
+- Нельзя параметризовать токены запятой и тире
 - Для избежания неоднозначности все токены должны быть уникальными значениями
 - Нельзя параметризировать токены пробельными символами
 - Стэковый алфафит, входящий алфавит и дно стэка должны параметризоваться символами ASCII
@@ -54,3 +51,9 @@
 Программа запускается из корневой папки командой <code>lua src/main.lua [path1] [path2]</code>, где
 - [path1] - путь до файла со входными данными
 - [path2] - путь до файла config (опциональный аргумент)
+# Интерпретация диаграммы
+- Зеленый круг (овал) - стартовое состояние
+- Двойной круг - завершаюшее состояние
+- Красный квадрат - ловушка
+- Тонкая стрелка - недетерминированный переход
+- Зеленая стрелка - стэконезависимый переход

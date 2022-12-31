@@ -1,1 +1,2 @@
-[empty] / 
+[stack-any] !,
+[stack-bottom] +

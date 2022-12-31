@@ -27,7 +27,7 @@ function Parser:initialize(config)
     self.final_states = {}
 
     local config_string = ""
-    local f, error = io.open(config)
+    local f, _ = io.open(config)
     if f then
         for line in io.lines(config) do
         config_string = config_string..line
@@ -117,12 +117,21 @@ function Parser:parseAutomata(filename)
     -- Удаление пробельных символов
     automata_string = delete_spaces(automata_string)
     local lines = split(automata_string, self.sep)
+    if #lines < 2 then
+        error('В вашем автомате нет переходов, или вы используете неправильный разделяющий символ')
+    end
     -- Разбор состояний    
     local states_names = split(lines[1], ",")
+    if #states_names == 0 then
+        error('В вашем автомате нет состояний')
+    end
     for i, name in ipairs(states_names) do
         local name_sep = split(name, "-")
         if #name_sep == 0 or #name_sep > 2 then
             error(string.format("Некорретная запись состояния %s", name))
+        end
+        if #name_sep[1] == 0 then
+            error('Запрещенно пустое имя состояния')
         end
         if has_value(self.prohibited, name_sep[1]) then
             error(string.format("Запрещенное имя состояния %s", name))

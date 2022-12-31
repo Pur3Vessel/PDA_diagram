@@ -102,9 +102,6 @@ function PDA:to_graph()
     graph.nodes.style:update{
         fontname = "Inconsolata Regular"
     }
-    graph.edges.style:update{
-        penwidth = 3
-    }
     local subgraphs_states = {}
     for k, v in pairs(self.states) do
         local sub = graph:subgraph(uuid_st())
@@ -138,7 +135,7 @@ function PDA:to_graph()
     for k, v in pairs(self.transitions) do
         local label = "label = " .. v:tr()
         if v.is_det then
-            label  = label .. ", penwidth = 1"
+            label  = label .. ", penwidth = 3"
         end
         if v.is_stack_ind then
             label = label .. ", color = \"green\""
@@ -153,9 +150,6 @@ end
 
 function equal_tr(tr1, tr2, empty, any)
     if (tr1.symbol == empty) or (tr2.symbol == empty) then
-        if tr1.stack_pop_symbol == any or tr2.stack_pop_symbol == any then
-            return true
-        end
         return tr1.stack_pop_symbol == tr2.stack_pop_symbol
     else
         return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol

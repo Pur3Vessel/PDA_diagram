@@ -1,12 +1,5 @@
-q0-final, q1, q2;
-q0, a, Z -> q0, AZ;
-q0, b, Z -> q0, BZ;
-q0, a, A -> q0, AA;
-q0, a, A -> q0, /;
-q0, a, B -> q0, AB;
-q0, b, A -> q0, BA;
-q0, b, B -> q0, BB;
-q0, b, B -> q1, /;
-q1, a, A -> q1, /;
-q1, b, B -> q1, /;
-q1, /, Z -> q2, Z
+q0, q1-final;
+q0, a, + -> q0, +;
+q0, b, ! -> q1, !;
+q1, a, ! -> q0, !;
+q1, b, + -> q1, +
