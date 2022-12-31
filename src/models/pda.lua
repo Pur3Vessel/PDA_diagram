@@ -100,7 +100,8 @@ function PDA:to_graph()
     local graph = Graphviz()
 
     graph.nodes.style:update{
-        fontname = "Inconsolata Regular"
+        fontname = "Inconsolata Regular",
+        penwidth = 1
     }
     local subgraphs_states = {}
     for k, v in pairs(self.states) do
@@ -135,7 +136,7 @@ function PDA:to_graph()
     for k, v in pairs(self.transitions) do
         local label = "label = " .. v:tr()
         if v.is_det then
-            label  = label .. ", penwidth = 3"
+            label  = label .. ", penwidth = 1"
         end
         if v.is_stack_ind then
             label = label .. ", color = \"green\""
