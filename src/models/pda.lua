@@ -34,7 +34,6 @@ function PDA:find_traps()
     end
 
     while true do
-        local not_in_traps = Set:new({})
         local st_num = not_traps.size
         for _, tr in pairs(self.transitions) do
             if not_traps:has(tr.state_to) then
@@ -70,7 +69,7 @@ function PDA:find_deterministic_transitions()
             local non_det = {}
             for _, v in pairs(st_transits) do
                 -- print(tr.state_from, tr.state_to, v.state_from, v.state_to)
-                if equal_tr(v, tr, self.empty_symbol) then
+                if equal_tr(v, tr, self.empty_symbol, self.any_symbol) then
                     table.insert(non_det, v)
                 end
             end
@@ -149,13 +148,14 @@ function PDA:to_graph()
     graph:render("test")
 end
 
-function equal_tr(tr1, tr2, empty)
+function equal_tr(tr1, tr2, empty, any)
     if (tr1.symbol == empty) or (tr2.symbol == empty) then
-        return tr1.stack_pop_symbol ~= tr2.stack_pop_symbol
+        return tr1.stack_pop_symbol == tr2.stack_pop_symbol
     else
         return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol
     end
 end
+
 return PDA
 -- q0, q1, q2, q3 - fin;
 -- q0, 0, Z -> q1, 0Z;
