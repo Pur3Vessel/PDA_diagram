@@ -6,9 +6,6 @@ require("src/utils/functions")
 
 local PDA = class("PDA")
 
-local empty = "ɛ"
-local any = "Z"
-
 function PDA:initialize(states, start_state, final_states, alphabeth, stack_alphabeth, transitions, empty_symbol, any_symbol)
     self.states = states
     self.start_state = start_state
@@ -159,7 +156,7 @@ function equal_tr(tr1, tr2)
         return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol
     end
 end
-
+return PDA
 -- q0, q1, q2, q3 - fin;
 -- q0, 0, Z -> q1, 0Z;
 -- q0, ɛ, Z -> q3, Z;

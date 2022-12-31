@@ -9,4 +9,5 @@ else
     local Parser = require('src/parser/parser')
     parser = Parser:new(arg[2])
 end
-parser:parseAutomata(arg[1])
+local pda = parser:parseAutomata(arg[1])
+pda:to_graph()

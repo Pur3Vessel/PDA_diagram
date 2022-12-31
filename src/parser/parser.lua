@@ -1,4 +1,7 @@
 local class = require('src.utils.middleclass')
+local PDA = require('src.models.pda')
+local Set = require('src.models.set')
+local Transition = require('src.models.transition')
 require('src.utils.functions')
 Parser = class('Parser')
 -- Определение токенов по умолчанию
@@ -19,6 +22,9 @@ function Parser:initialize(config)
     self.prohibited['empty'] = self.empty
     self.prohibited['flag'] = self.flag
     self.states = {}
+    self.transitions = {}
+    self.start_state = nil
+    self.final_states = {}
 
     local config_string = ""
     local f, error = io.open(config)
@@ -38,7 +44,6 @@ function Parser:initialize(config)
         local sep = string.find(line, ']')
         local token = string.sub(line, 1, sep)
         local value = string.sub(line, sep + 1, #line + 1)
-        print(token, value)
         if token == '[al-sym]' then
             self.al_sym = value
             for _,  elem in ipairs(self.prohibited) do
@@ -111,7 +116,6 @@ function Parser:parseAutomata(filename)
     end
     -- Удаление пробельных символов
     automata_string = delete_spaces(automata_string)
-    print(automata_string)
     local lines = split(automata_string, self.sep)
     -- Разбор состояний    
     local states_names = split(lines[1], ",")
@@ -130,13 +134,13 @@ function Parser:parseAutomata(filename)
         end
         table.insert(self.states, name_sep[1])
         if i == 1 then
-            print('Это состояние стартовое', name_sep[1])
+            self.start_state = name_sep[1]
         end
         if #name_sep == 2 then
             if name_sep[2] ~= self.flag then
                 error(string.format("Некорретный маркер завершающего состояния: %s", name_sep[2]))
             end
-            print('Это состояние завершающее', name_sep[1])
+            table.insert(self.final_states, name_sep[1])
         end
     end
     -- Разбор переходов
@@ -209,7 +213,11 @@ function Parser:parseAutomata(filename)
             end
         end
         -- Тут нужно добавить переход в автомат
+        local transition = Transition:new(before_separated[1], after_separated[1], before_separated[2], before_separated[3], after_separated[2])
+        table.insert(self.transitions, transition)
      end
+     local pda = PDA:new(self.states, self.start_state, self.final_states, self.al_sym, self.stack_symbol, self.transitions, self.empty, self.any)
+     return pda
 end
 
 
