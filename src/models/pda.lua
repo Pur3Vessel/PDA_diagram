@@ -9,13 +9,16 @@ local PDA = class("PDA")
 local empty = "ɛ"
 local any = "Z"
 
-function PDA:initialize(states, start_state, final_states, alphabeth, stack_alphabeth, transitions)
+function PDA:initialize(states, start_state, final_states, alphabeth, stack_alphabeth, transitions, empty_symbol, any_symbol)
     self.states = states
     self.start_state = start_state
     self.final_states = final_states
     self.alphabeth = alphabeth
     self.stack_alphabeth = stack_alphabeth
     self.transitions = transitions
+
+    self.empty_symbol = empty_symbol
+    self.any_symbol = any_symbol
 
     self.traps = {}
     self:find_traps()
@@ -70,7 +73,7 @@ function PDA:find_deterministic_transitions()
             local non_det = {}
             for _, v in pairs(st_transits) do
                 -- print(tr.state_from, tr.state_to, v.state_from, v.state_to)
-                if v:equal(tr) then
+                if equal_tr(v, tr) then
                     table.insert(non_det, v)
                 end
             end
@@ -149,6 +152,14 @@ function PDA:to_graph()
     graph:render("test")
 end
 
+function equal_tr(tr1, tr2)
+    if (tr1.symbol == empty) or (tr2.symbol == empty) then
+        return tr1.stack_pop_symbol ~= tr2.stack_pop_symbol
+    else
+        return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol
+    end
+end
+
 -- q0, q1, q2, q3 - fin;
 -- q0, 0, Z -> q1, 0Z;
 -- q0, ɛ, Z -> q3, Z;
@@ -166,7 +177,7 @@ end
 --         }
 -- local st = {"q0", "q1", "q2", "q3"}
 -- local fin = {"q0", "q1", "q3"}
--- local p = PDA:new(st, "q0", fin, {"0", "1"}, {"0", "1"}, tr)
+-- local p = PDA:new(st, "q0", fin, {"0", "1"}, {"0", "1"}, tr, empty, any)
 -- print("===================")
 -- for k, v in pairs(p.stack_independent_transitions) do 
 --     print(v.state_from, v.state_to, v.symbol, v.stack_pop_symbol, v.stack_push_symbol)
