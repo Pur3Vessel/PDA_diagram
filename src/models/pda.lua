@@ -157,16 +157,16 @@ end
 -- q2, 1, 0 -> q2, ɛ;
 -- q2, ɛ, Z -> q3, Z
 
-local tr = {Transition:new("q0", "q1", "0", "Z", "0Z"),
-            Transition:new("q0", "q3", "ɛ", "Z", "Z"),
-            Transition:new("q1", "q1", "0", "0", "00"),
-            Transition:new("q1", "q2", "1", "0", "ɛ"),
-            Transition:new("q2", "q2", "1", "0", "ɛ"),
-            Transition:new("q2", "q3", "ɛ", "Z", "Z")
-        }
-local st = {"q0", "q1", "q2", "q3"}
-local fin = {"q0", "q1", "q3"}
-local p = PDA:new(st, "q0", fin, {"0", "1"}, {"0", "1"}, tr)
+-- local tr = {Transition:new("q0", "q1", "0", "Z", "0Z"),
+--             Transition:new("q0", "q3", "ɛ", "Z", "Z"),
+--             Transition:new("q1", "q1", "0", "0", "00"),
+--             Transition:new("q1", "q2", "1", "0", "ɛ"),
+--             Transition:new("q2", "q2", "1", "0", "ɛ"),
+--             Transition:new("q2", "q3", "ɛ", "Z", "Z")
+--         }
+-- local st = {"q0", "q1", "q2", "q3"}
+-- local fin = {"q0", "q1", "q3"}
+-- local p = PDA:new(st, "q0", fin, {"0", "1"}, {"0", "1"}, tr)
 -- print("===================")
 -- for k, v in pairs(p.stack_independent_transitions) do 
 --     print(v.state_from, v.state_to, v.symbol, v.stack_pop_symbol, v.stack_push_symbol)
@@ -175,8 +175,8 @@ local p = PDA:new(st, "q0", fin, {"0", "1"}, {"0", "1"}, tr)
 --     print(k, v)
 
 -- end
-for k, v in pairs(p.stack_independent_transitions) do
-    print(v:toString())
-end
+-- for k, v in pairs(p.stack_independent_transitions) do
+--     print(v:toString())
+-- end
 
-p:to_graph()
+-- p:to_graph()
