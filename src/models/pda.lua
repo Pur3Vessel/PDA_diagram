@@ -1,6 +1,7 @@
 local class = require("src/utils/middleclass")
 local Set = require("src/models/set")
 local Transition = require("src/models/transition")
+local Graphviz = require("src/lua-graphviz/graphviz")
 require("src/utils/functions")
 
 local PDA = class("PDA")
@@ -81,6 +82,7 @@ function PDA:find_deterministic_transitions()
     end
 
     for k, v in pairs(det_tr) do
+        v.is_det = true
         table.insert(self.deterministic_transitions, v)
     end
 end
@@ -89,8 +91,52 @@ function PDA:find_stack_independent_transitions()
     for ind, tr in pairs(self.transitions) do
         if(tr.stack_pop_symbol == any and tr.stack_push_symbol == any) then
             table.insert(self.stack_independent_transitions, tr)
+            tr.is_stack_ind = true
         end
     end
+end
+
+function PDA:to_graph()
+    local graph = Graphviz()
+
+    graph.nodes.style:update{
+        fontname = "Inconsolata Regular"
+    }
+    local subgraphs_states = {}
+    for k, v in pairs(self.states) do
+        local sub = graph:subgraph(uuid_st())
+        sub:node(v, v)
+        sub.nodes.style:update{
+            fontname = "Inconsolata Regular",
+            shape = "oval"
+        }
+        if self.start_state == v then
+            sub.nodes.style:update{
+                fontname = "Inconsolata Regular",
+                shape = "oval",
+                color = "green"
+            }
+        end
+        if has_value(self.final_states, v) then
+            sub.nodes.style:update{
+                fontname = "Inconsolata Regular",
+                shape = "doublecircle"
+            }
+        end
+        table.insert(subgraphs_states, sub)
+    end
+
+    for k, v in pairs(self.transitions) do
+        -- local sub = graph:subgraph(uuid_tr())
+        graph:edge(v.state_from, v.state_to, v:tr())
+        -- sub.edges.style:update{
+        --     label = v:tr()
+        -- }
+    end
+
+    print(graph:source())
+
+    graph:render("test")
 end
 
 -- q0, q1, q2, q3 - fin;
@@ -101,14 +147,14 @@ end
 -- q2, 1, 0 -> q2, ɛ;
 -- q2, ɛ, Z -> q3, Z
 
--- local tr = {Transition:new("q0", "q1", "0", "Z", "0Z"),
---             Transition:new("q0", "q3", "ɛ", "Z", "Z"),
---             Transition:new("q1", "q1", "0", "0", "00"),
---             Transition:new("q1", "q2", "1", "0", "ɛ"),
---             Transition:new("q2", "q2", "1", "0", "ɛ"),
---             Transition:new("q2", "q3", "ɛ", "Z", "Z")}
--- local st = {"q0", "q1", "q2", "q3"}
--- local p = PDA:new(st, "q0", st, {"0", "1"}, {"0", "1"}, tr)
+local tr = {Transition:new("q0", "q1", "0", "Z", "0Z"),
+            Transition:new("q0", "q3", "ɛ", "Z", "Z"),
+            Transition:new("q1", "q1", "0", "0", "00"),
+            Transition:new("q1", "q2", "1", "0", "ɛ"),
+            Transition:new("q2", "q2", "1", "0", "ɛ"),
+            Transition:new("q2", "q3", "ɛ", "Z", "Z")}
+local st = {"q0", "q1", "q2", "q3"}
+local p = PDA:new(st, "q0", st, {"0", "1"}, {"0", "1"}, tr)
 -- print("===================")
 -- for k, v in pairs(p.stack_independent_transitions) do 
 --     print(v.state_from, v.state_to, v.symbol, v.stack_pop_symbol, v.stack_push_symbol)
@@ -117,3 +163,5 @@ end
 --     print(k, v)
 
 -- end
+
+p:to_graph()

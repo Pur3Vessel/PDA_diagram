@@ -53,5 +53,20 @@ function dump(o)
     else
         return tostring(o)
     end
- end
- 
+end
+
+local random = math.random
+function uuid_st()
+    local template ='axxxxxxxxxxx4'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+function uuid_tr()
+    local template ='bxxxxxxxxxxx4'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
