@@ -3,35 +3,35 @@ digraph defaultname {
 	node [fontname="Inconsolata Regular"]
 	edge []
 
-		subgraph a6d9d849450e4 {
+		subgraph a5d8df70a3ac4 {
 			graph []
-			node [shape=doublecircle fontname="Inconsolata Regular"]
+			node [fontname="Inconsolata Regular" shape=doublecircle]
 			edge []
 				q3 [label="q3"]
 		}
 
-		subgraph a1a51d4a982b4 {
+		subgraph ab25d854d5c64 {
 			graph []
-			node [shape=oval color=green fontname="Inconsolata Regular"]
+			node [fontname="Inconsolata Regular" shape=oval]
+			edge []
+				q1 [label="q1"]
+		}
+
+		subgraph a35d08eea99c4 {
+			graph []
+			node [fontname="Inconsolata Regular" shape=oval color=green]
 			edge []
 				q0 [label="q0"]
 		}
 
-		subgraph a2f95dfb38b44 {
+		subgraph aca5b16c48d94 {
 			graph []
-			node [shape=oval fontname="Inconsolata Regular"]
+			node [fontname="Inconsolata Regular" shape=oval]
 			edge []
 				q2 [label="q2"]
 		}
-
-		subgraph a2dd81dd623c4 {
-			graph []
-			node [shape=rectangle color=red fontname="Inconsolata Regular"]
-			edge []
-				q1 [label="q1"]
-		}
-			q0 -> q1 [label = "0, Z/0Z", penwidth = 3]
-			q0 -> q3 [label = "ɛ, Z/Z", penwidth = 3]
+			q0 -> q1 [label = "0, Z/0Z"]
+			q0 -> q3 [label = "ɛ, Z/Z"]
 			q1 -> q1 [label = "0, 0/00", penwidth = 3]
 			q1 -> q2 [label = "1, 0/ɛ", penwidth = 3]
 			q2 -> q2 [label = "1, 0/ɛ", penwidth = 3]
