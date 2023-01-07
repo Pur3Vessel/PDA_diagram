@@ -70,7 +70,7 @@
 Стартовый нетерминал: [automata]
 \centering
         $$\begin{array}{l}
-        [automata] \to [initail-state][states][sep][transitions] \;|\; [initial-state][sep][transitions]\\  
+        [automata] \to [initail-state],[states][sep][transitions] \;|\; [initial-state][sep][transitions]\\  
         
         [initail-state] \to [state-name] \;|\; [state-name]-[flag] \\
 
@@ -82,9 +82,12 @@
 
         [transitions] \to [transiton] \;|\; [transiton][sep][transitions] \\
         
-        [transition] \to [before][trans-sep][after] \;|\; [state-name],[alphabet-symbol],[stack-any][trans-sep][state-name],[stack-any] \\
+        [transition] \to [before][trans-sep][after] \;|\; \\
+                        
+        \qquad\qquad\qquad \ \ [state-name],[alphabet-symbol],[stack-any][trans-sep][state-name],[stack-any] \\
         
-        [transition] \to [state-name],[alphabet-symbol],[stack-bottom][trans-sep][state-name],[stack-symbols][stack-bottom] \\
+        [transition] \to [state-name],[alphabet-symbol],[stack-bottom][trans-sep][state-name],\\
+        \qquad\qquad\qquad\ \ [stack-symbols][stack-bottom] \\
         
         [before] \to [state-name], [alphabet-symbol], [stack-symbol] \\
         
@@ -94,6 +97,7 @@
         
         [stack-symbols] \to [stack-symbol][stack-symbols] \;|\; [stack-symbol] \\
         \end{array}$$
+        
 [symbol] - символ в имени состояния. Может быть любым разрешенным символом.
 
 \end{figure}
