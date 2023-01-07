@@ -3,60 +3,37 @@ digraph defaultname {
 	node [fontname="Inconsolata Regular"]
 	edge []
 
-		subgraph a7861a8128f14 {
+		subgraph adf08640cd3e4 {
 			graph []
-			node [shape=oval fontname="Inconsolata Regular"]
+			node [fontname="Inconsolata Regular" shape=oval]
 			edge []
-				q5 [label="q5"]
+				q2 [label="q2"]
 		}
 
-		subgraph ac55c10186034 {
+		subgraph acb5c7a076aa4 {
 			graph []
-			node [shape=oval fontname="Inconsolata Regular"]
+			node [fontname="Inconsolata Regular" shape=doublecircle]
 			edge []
 				q3 [label="q3"]
 		}
 
-		subgraph a21bbada6eda4 {
+		subgraph a072b333c2c14 {
 			graph []
-			node [shape=doublecircle fontname="Inconsolata Regular"]
+			node [shape=oval color=green fontname="Inconsolata Regular"]
 			edge []
-				q4 [label="q4"]
+				q0 [label="q0"]
 		}
 
-		subgraph a472d4aeb0214 {
+		subgraph ab4286f3d0e74 {
 			graph []
-			node [fontname="Inconsolata Regular" shape=rectangle color=red]
-			edge []
-				ql [label="ql"]
-		}
-
-		subgraph acd4f211a9184 {
-			graph []
-			node [fontname="Inconsolata Regular" shape=doublecircle color=green]
+			node [fontname="Inconsolata Regular" shape=doublecircle]
 			edge []
 				q1 [label="q1"]
 		}
-
-		subgraph a887fd47eab84 {
-			graph []
-			node [shape=oval fontname="Inconsolata Regular"]
-			edge []
-				q6 [label="q6"]
-		}
-
-		subgraph ab9344dbdaec4 {
-			graph []
-			node [shape=oval fontname="Inconsolata Regular"]
-			edge []
-				q2 [label="q2"]
-		}
-			q1 -> q2 [label = "a, */*", color = "green"]
-			q2 -> q3 [label = "a, */*", penwidth = 3, color = "green"]
-			q3 -> ql [label = "b, */*", penwidth = 3, color = "green"]
-			q3 -> q4 [label = "a, */*", penwidth = 3, color = "green"]
-			q4 -> q5 [label = "a, */*", penwidth = 3, color = "green"]
-			q5 -> q6 [label = "a, */*", penwidth = 3, color = "green"]
-			q6 -> q1 [label = "a, */*", penwidth = 3, color = "green"]
-			q1 -> q5 [label = "., */*", color = "green"]
+			q0 -> q1 [label = "a, !/!", penwidth = 3, color = "green"]
+			q0 -> q3 [label = "$, A/$", penwidth = 3]
+			q1 -> q1 [label = "a, A/AA", penwidth = 3]
+			q1 -> q1 [label = "b, A/A", penwidth = 3]
+			q1 -> q2 [label = "b, Z/Z", penwidth = 3]
+			q2 -> q3 [label = "$, A/$", penwidth = 3]
 }
