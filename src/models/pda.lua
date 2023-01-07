@@ -149,11 +149,15 @@ function PDA:to_graph()
 end
 
 function equal_tr(tr1, tr2, empty, any)
-    if (tr1.symbol == empty) or (tr2.symbol == empty) then
-        return tr1.stack_pop_symbol == tr2.stack_pop_symbol
-    else
-        return tr1.symbol == tr2.symbol and tr1.stack_pop_symbol == tr2.stack_pop_symbol
-    end
+    return eq_sps(tr1.stack_pop_symbol, tr2.stack_pop_symbol, any) and eq_as(tr1.symbol, tr2.symbol, empty)
+end
+
+function eq_sps(s1, s2, any)
+    return s1 == s2 or s1 == any or s2 == any
+end
+
+function eq_as(s1, s2, empty)
+    return s1 == s2 or s1 == empty or s2 == empty
 end
 
 return PDA
