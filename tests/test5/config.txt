@@ -1,0 +1,6 @@
+[al-sym] [a-b],
+[stack-symbol] [A-C],
+[flag] fin,
+[stack-bottom] Z0,
+[stack-any] !,
+[empty] $

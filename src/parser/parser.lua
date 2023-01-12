@@ -178,7 +178,7 @@ function Parser:parseAutomata(filename)
         if string.match(before_separated[3], self.stack_symbol) == nil and before_separated[3] ~= self.bottom and before_separated[3] ~= self.any then
             error(string.format('В переходе появился символ, не принадлежащий стэковому алфавиту %s', transition))
         end
-        if #before_separated[2] ~= 1 and before_separated[2] ~= self.empty or #before_separated[3] ~= 1 and before_separated[3] ~= self.any then
+        if #before_separated[2] ~= 1 and before_separated[2] ~= self.empty or #before_separated[3] ~= 1 and before_separated[3] ~= self.any and before_separated[3] ~= self.bottom then
             error(string.format('Некорректная запись перехода %s', transition))
         end
         if #after_separated[2] == 1 then
@@ -196,21 +196,38 @@ function Parser:parseAutomata(filename)
             end
         else
             if after_separated[2] ~= self.empty then
-                local before_last = string.sub(after_separated[2], 1, #after_separated[2] - 1)
-                local last = string.sub(after_separated[2], -1)
+                local before_last = string.sub(after_separated[2], 1, #after_separated[2] - #self.bottom)
+                local last = string.sub(after_separated[2], -#self.bottom)
                 for char in string.gmatch(before_last, ".") do
                     if string.match(char, self.stack_symbol) == nil then
+                        print(before_last)
+                        print(last)
                         error(string.format('В переходе появился символ, не принадлежащий стэковому алфавиту %s', transition))
                     end
                 end
-                if before_separated[3] == self.bottom and last ~= self.bottom then
-                    error(string.format('Было считано дно стэка, но его не вернули %s', transition))
-                end
-                if before_separated[3] ~= self.bottom then
-                    if string.match(last, self.stack_symbol) == nil then
-                        error(string.format('В переходе появился символ, не принадлежащий стэковому алфавиту %s', transition))
+
+                if last == self.bottom then
+                    if before_separated[3] ~= self.bottom then
+                        error(string.format('Дно стэка не было считано, но оно было снова записано %s', transition))
+                    end
+                else
+                    if before_separated[3] == self.bottom then
+                        error(string.format('Было считано дно стэка, но его не вернули %s', transition))
+                    end
+                    for char in string.gmatch(last, ".") do
+                        if string.match(char, self.stack_symbol) == nil then
+                            error(string.format('В переходе появился символ, не принадлежащий стэковому алфавиту %s', transition))
+                        end
                     end
                 end
+                --if before_separated[3] == self.bottom and last ~= self.bottom then
+                --    error(string.format('Было считано дно стэка, но его не вернули %s', transition))
+                --end
+                --if before_separated[3] ~= self.bottom then
+                  --  if string.match(last, self.stack_symbol) == nil then
+                   --     error(string.format('В переходе появился символ, не принадлежащий стэковому алфавиту %s', transition))
+                    --end
+                --end
             elseif after_separated[2] ~= self.any then
                 if before_separated[3] == self.bottom then
                     error(string.format('Было считано дно стэка, но его не вернули %s', transition))
