@@ -3,37 +3,142 @@ digraph defaultname {
 	node [fontname="Inconsolata Regular"]
 	edge []
 
-		subgraph a38a75085e104 {
+		subgraph a56f740f4f174 {
 			graph []
-			node [fontname="Inconsolata Regular" shape=oval]
+			node [shape=oval fontname="Inconsolata Regular"]
+			edge []
+				q7 [label="q7"]
+		}
+
+		subgraph a0767f4acf734 {
+			graph []
+			node [shape=rectangle fontname="Inconsolata Regular" color=red]
+			edge []
+				ql [label="ql"]
+		}
+
+		subgraph a9abd7df0c584 {
+			graph []
+			node [shape=oval fontname="Inconsolata Regular"]
+			edge []
+				q6 [label="q6"]
+		}
+
+		subgraph a61a206ef50a4 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular"]
+			edge []
+				q12 [label="q12"]
+		}
+
+		subgraph aeac1a9788364 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular"]
+			edge []
+				q9 [label="q9"]
+		}
+
+		subgraph a363f11aed9a4 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular"]
+			edge []
+				q10 [label="q10"]
+		}
+
+		subgraph aca58a4862e44 {
+			graph []
+			node [shape=oval fontname="Inconsolata Regular"]
 			edge []
 				q1 [label="q1"]
 		}
 
-		subgraph a047ddc6f29f4 {
+		subgraph a6b7d818c4d44 {
 			graph []
-			node [shape=oval fontname="Inconsolata Regular" color=green]
+			node [shape=oval fontname="Inconsolata Regular"]
+			edge []
+				q2 [label="q2"]
+		}
+
+		subgraph a79a5ae108b24 {
+			graph []
+			node [shape=oval fontname="Inconsolata Regular"]
+			edge []
+				q4 [label="q4"]
+		}
+
+		subgraph a38920cfe80d4 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular" color=green]
 			edge []
 				q0 [label="q0"]
 		}
 
-		subgraph ad425b22e32b4 {
+		subgraph a65805542a1d4 {
 			graph []
-			node [fontname="Inconsolata Regular" shape=doublecircle]
+			node [shape=doublecircle fontname="Inconsolata Regular"]
+			edge []
+				q11 [label="q11"]
+		}
+
+		subgraph a414dcf0daa04 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular"]
+			edge []
+				q5 [label="q5"]
+		}
+
+		subgraph a288b6d1b25d4 {
+			graph []
+			node [shape=doublecircle fontname="Inconsolata Regular"]
 			edge []
 				q3 [label="q3"]
 		}
 
-		subgraph a887ed0490ef4 {
+		subgraph a8b57a07ca444 {
 			graph []
-			node [fontname="Inconsolata Regular" shape=oval]
+			node [shape=doublecircle fontname="Inconsolata Regular"]
 			edge []
-				q2 [label="q2"]
+				q8 [label="q8"]
 		}
-			q0 -> q1 [label = "0, Z/0Z"]
-			q0 -> q3 [label = "ɛ, Z/Z"]
-			q1 -> q1 [label = "0, 0/00", penwidth = 3]
-			q1 -> q2 [label = "1, 0/ɛ", penwidth = 3]
-			q2 -> q2 [label = "1, 0/ɛ", penwidth = 3]
-			q2 -> q3 [label = "ɛ, Z/Z", penwidth = 3]
+			q0 -> q1 [label = "a, Z/ABZ", penwidth = 3]
+			q0 -> q6 [label = "b, */*", penwidth = 3, color = "green"]
+			q0 -> q8 [label = "c, */*", penwidth = 3, color = "green"]
+			q1 -> q1 [label = "a, A/AA", penwidth = 3]
+			q1 -> q4 [label = "b, A/$", penwidth = 3]
+			q1 -> q2 [label = "c, */*", penwidth = 3, color = "green"]
+			q2 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q2 -> ql [label = "b, */*", penwidth = 3, color = "green"]
+			q2 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q3 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q3 -> ql [label = "b, */*", penwidth = 3, color = "green"]
+			q3 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q4 -> ql [label = "a, A/$", penwidth = 3]
+			q4 -> q4 [label = "b, A/$", penwidth = 3]
+			q4 -> q5 [label = "$, B/$", penwidth = 3]
+			q4 -> q10 [label = "$, C/$", penwidth = 3]
+			q4 -> q2 [label = "c, A/$", penwidth = 3]
+			q5 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q5 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q5 -> q6 [label = "b, */*", penwidth = 3, color = "green"]
+			q6 -> q6 [label = "b, */*", penwidth = 3, color = "green"]
+			q6 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q6 -> q2 [label = "c, */*", penwidth = 3, color = "green"]
+			q10 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q10 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q10 -> q7 [label = "b, */*", penwidth = 3, color = "green"]
+			q7 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q7 -> q7 [label = "b, */*", penwidth = 3, color = "green"]
+			q7 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q8 -> q7 [label = "b, */*", penwidth = 3, color = "green"]
+			q8 -> q1 [label = "a, Z/ACZ", penwidth = 3]
+			q8 -> q9 [label = "c, */*", penwidth = 3, color = "green"]
+			q9 -> q9 [label = "c, */*", penwidth = 3, color = "green"]
+			q9 -> q11 [label = "b, */*", penwidth = 3, color = "green"]
+			q9 -> q12 [label = "a, */*", penwidth = 3, color = "green"]
+			q11 -> q11 [label = "b, */*", penwidth = 3, color = "green"]
+			q11 -> ql [label = "a, */*", penwidth = 3, color = "green"]
+			q11 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
+			q12 -> q12 [label = "a, */*", penwidth = 3, color = "green"]
+			q12 -> q11 [label = "b, */*", penwidth = 3, color = "green"]
+			q12 -> q3 [label = "c, */*", penwidth = 3, color = "green"]
 }
